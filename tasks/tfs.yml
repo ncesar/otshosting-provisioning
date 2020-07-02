@@ -26,7 +26,7 @@
 
 - name: Download latest TFS from git
   git:
-    repo: https://github.com/otland/forgottenserver.git
+    repo: https://github.com/ncesar/forgottenserver.git
     dest: /home/otsmanager/forgottenserver
   become: true
   become_user: otsmanager
@@ -41,12 +41,12 @@
   when: not existingpass.stdout
 
 - set_fact:
-    mysql_forgottenserver_pass: "{{ randompass.stdout if randompass is not skipped else existingpass.stdout }}"
+    mysql_forgottenserver_pass: '{{ randompass.stdout if randompass is not skipped else existingpass.stdout }}'
 
 - name: Create database user for TFS
   mysql_user:
     name: forgottenserver
-    password: "{{mysql_forgottenserver_pass}}"
+    password: '{{mysql_forgottenserver_pass}}'
     priv: forgottenserver.*:ALL
     check_implicit_admin: yes
 
@@ -89,7 +89,7 @@
 - name: Put server's IP address in config.lua
   lineinfile:
     dest: /home/otsmanager/forgottenserver/config.lua
-    regexp: "^ip ="
+    regexp: '^ip ='
     line: 'ip = "{{ansible_default_ipv4.address}}"'
 
 - name: Create build directory
